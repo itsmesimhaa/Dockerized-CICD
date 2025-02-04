@@ -32,6 +32,20 @@ pipeline {
                 }
             }
         }
+        stage('Update Kubernetes Manifests') {
+    steps {
+        script {
+            sh "sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${BUILD_NUMBER}|' frontend-deployment.yaml"
+            sh "sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${BUILD_NUMBER}|' backend-deployment.yaml"
+
+            sh 'git config --global user.email "your-email@example.com"'
+            sh 'git config --global user.name "your-github-username"'
+            sh 'git add frontend-deployment.yaml backend-deployment.yaml'
+            sh 'git commit -m "Updated image versions to ${BUILD_NUMBER}"'
+            sh 'git push origin main'
+        }
+    }
+}
 
         stage('Trigger Argo CD Deployment') {
             steps {
