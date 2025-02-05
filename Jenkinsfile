@@ -4,6 +4,7 @@ pipeline {
     environment {
         FRONTEND_IMAGE = 'itsmesimha/frontend-nginx'
         BACKEND_IMAGE = 'itsmesimha/backend-flask'
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
@@ -20,29 +21,36 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Docker-credentials', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     script {
                         sh """
-                        docker build -t $FRONTEND_IMAGE:latest frontend/
-                        docker build -t $BACKEND_IMAGE:latest backend/
+                        docker build -t $FRONTEND_IMAGE:$IMAGE_TAG frontend/
+                        docker build -t $BACKEND_IMAGE:$IMAGE_TAG backend/
                         
                         echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USER --password-stdin
-                        docker push $FRONTEND_IMAGE:latest
-                        docker push $BACKEND_IMAGE:latest
+                        docker push $FRONTEND_IMAGE:$IMAGE_TAG
+                        docker push $BACKEND_IMAGE:$IMAGE_TAG
                         docker logout
                         """
                     }
                 }
             }
         }
+
         stage('Update Kubernetes Manifests') {
     steps {
         script {
-            sh "sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${BUILD_NUMBER}|' frontend-deployment.yaml"
-            sh "sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${BUILD_NUMBER}|' backend-deployment.yaml"
-
-            sh 'git config --global user.email "your-email@example.com"'
-            sh 'git config --global user.name "your-github-username"'
-            sh 'git add frontend-deployment.yaml backend-deployment.yaml'
-            sh 'git commit -m "Updated image versions to ${BUILD_NUMBER}"'
-            sh 'git push origin main'
+            sh """
+            sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifests/frontend/deployment.yaml
+            sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifests/backend/deployment.yaml
+            """
+            
+            withCredentials([usernamePassword(credentialsId: 'gitHub-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
+                sh """
+                git config --global user.email "your-email@example.com"
+                git config --global user.name "your-github-username"
+                git add manifests/frontend/deployment.yaml manifests/backend/deployment.yaml
+                git commit -m "Updated image versions to ${IMAGE_TAG}"
+                git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/itsmesimhaa/Dockerized-CICD.git main
+                """
+            }
         }
     }
 }
