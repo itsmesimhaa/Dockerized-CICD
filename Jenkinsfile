@@ -35,27 +35,27 @@ pipeline {
         }
 
         stage('Update Kubernetes Manifests') {
-    steps {
-        script {
-            sh """
-            sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifests/frontend/deployment.yaml
-            sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifests/backend/deployment.yaml
-            """
-            
-            withCredentials([usernamePassword(credentialsId: 'gitHub-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
-                sh """
-                git config --global user.email "hongirana.s@cloudjournee.com"
-                git config --global user.name "itsmesimha"
-                git add manifests/frontend/deployment.yaml manifests/backend/deployment.yaml
-                git commit -m "Updated image versions to ${IMAGE_TAG}"
-                git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/itsmesimhaa/Dockerized-CICD.git main
-                """
+            steps {
+                script {
+                    sh """
+                    sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifests/frontend/deployment.yaml
+                    sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifests/backend/deployment.yaml
+                    """
+                    
+                    withCredentials([usernamePassword(credentialsId: 'gitHub-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
+                        sh """
+                        git config --global user.email "hongirana.s@cloudjournee.com"
+                        git config --global user.name "itsmesimha"
+                        git add manifests/frontend/deployment.yaml manifests/backend/deployment.yaml
+                        git commit -m "Updated image versions to ${IMAGE_TAG}"
+                        git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/itsmesimhaa/Dockerized-CICD.git main
+                        """
+                    }
+                }
             }
-        }
-    }
-}
+        } // 🔥 Missing closing brace added here
 
-                stage('Trigger Argo CD Deployment') {
+        stage('Trigger Argo CD Deployment') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'argocd-token', variable: 'ARGOCD_AUTH_TOKEN')]) {
@@ -68,3 +68,5 @@ pipeline {
                 }
             }
         }
+    }
+}
