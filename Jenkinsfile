@@ -46,7 +46,7 @@ pipeline {
                         sh """
                         git config --global user.email "hongirana.s@cloudjournee.com"
                         git config --global user.name "itsmesimha"
-                        git add manifests/frontend/deployment.yaml manifests/backend/deployment.yaml
+                        git add manifest/frontend/deployment.yaml manifest/backend/deployment.yaml
                         git commit -m "Updated image versions to ${IMAGE_TAG}"
                         git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/itsmesimhaa/Dockerized-CICD.git main
                         """
