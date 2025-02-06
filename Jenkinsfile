@@ -55,15 +55,16 @@ pipeline {
     }
 }
 
-        stage('Trigger Argo CD Deployment') {
+                stage('Trigger Argo CD Deployment') {
             steps {
                 script {
-                    sh """
-                    argocd app sync frontend-app --wait --loglevel debug
-                    argocd app sync backend-app --wait --loglevel debug
-                    """
+                    withCredentials([string(credentialsId: 'argocd-token', variable: 'ARGOCD_AUTH_TOKEN')]) {
+                        sh """
+                        argocd login https://13.59.209.207:30285 --username admin --password $ARGOCD_AUTH_TOKEN --insecure
+                        argocd app sync frontend-app --wait --loglevel debug
+                        argocd app sync backend-app --wait --loglevel debug
+                        """
+                    }
                 }
             }
         }
-    }
-}
