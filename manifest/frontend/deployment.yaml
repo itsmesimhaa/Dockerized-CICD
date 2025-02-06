@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: itsmesimha/frontend-nginx:latest
+        image: itsmesimha/frontend-nginx:7
         ports:
         - containerPort: 80
