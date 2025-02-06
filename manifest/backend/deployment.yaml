@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: flask-app
-        image: itsmesimha/backend-flask:8
+        image: itsmesimha/backend-flask:9
         ports:
         - containerPort: 5000
         env:
