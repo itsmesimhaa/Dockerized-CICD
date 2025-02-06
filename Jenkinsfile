@@ -60,7 +60,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'argocd-token', variable: 'ARGOCD_AUTH_TOKEN')]) {
                         sh """
-                        argocd login 13.59.209.207:30285 --username admin --password YOUR_PASSWORD --insecure
+                        argocd login 13.59.209.207:30285 --username admin --password admin1234 --insecure
                         argocd app sync frontend-app --wait --loglevel debug
                         argocd app sync backend-app --wait --loglevel debug
                         """
