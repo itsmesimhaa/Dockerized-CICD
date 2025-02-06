@@ -38,8 +38,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifests/frontend/deployment.yaml
-                    sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifests/backend/deployment.yaml
+                    sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifest/frontend/deployment.yaml
+                    sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifest/backend/deployment.yaml
                     """
                     
                     withCredentials([usernamePassword(credentialsId: 'gitHub-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
