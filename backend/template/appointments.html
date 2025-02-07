@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | Kasturi Healthcare</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Kasturi Healthcare</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#doctors">Our Doctors</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#appointments">Book Appointment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="appointments" class="appointments-section">
+        <div class="container">
+            <h2>Book an Appointment</h2>
+
+            <!-- Display dynamic message -->
+            {% if message %}
+                <div class="alert {{ status }}">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form action="/appointments" method="POST">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div>
+                    <label for="date">Appointment Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div>
+                    <label for="time">Appointment Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div>
+                    <label for="doctor">Doctor</label>
+                    <select id="doctor" name="doctor" required>
+                        <option value="Dr. John Smith">Dr. John Smith</option>
+                        <option value="Dr. Sarah Lee">Dr. Sarah Lee</option>
+                        <option value="Dr. Mark Tan">Dr. Mark Tan</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" value="Book Appointment">
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Kasturi Healthcare. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
