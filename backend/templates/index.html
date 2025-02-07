@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasturi Healthcare</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1> Healthcare</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#doctors">Our Doctors</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#appointments">Book Appointment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <h2>Comprehensive Healthcare for Everyone</h2>
+            <p>Your health is our top priority. Experience quality care and personalized medical services.</p>
+            <button onclick="window.location.href='#services'">Explore Our Services</button>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>Kasturi Healthcare is dedicated to providing exceptional medical services with state-of-the-art facilities and a compassionate approach. Our team of experienced doctors, nurses, and support staff work around the clock to ensure the highest standard of care.</p>
+            <p>Our vision is to create a healthier community by delivering quality healthcare accessible to all.</p>
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <article class="service-item">
+                    <h3>24/7 Emergency Care</h3>
+                    <p>Immediate and effective emergency services available at any time of the day.</p>
+                </article>
+                <article class="service-item">
+                    <h3>Outpatient Consultation</h3>
+                    <p>Expert consultations across various specialties, ensuring thorough medical attention.</p>
+                </article>
+                <article class="service-item">
+                    <h3>Diagnostic Imaging</h3>
+                    <p>Advanced imaging services, including MRI, CT scans, and X-rays.</p>
+                </article>
+                <article class="service-item">
+                    <h3>Pediatric Services</h3>
+                    <p>Specialized care for infants, children, and adolescents.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctors" class="doctors-section">
+        <div class="container">
+            <h2>Our Doctors</h2>
+            <div class="doctor-grid">
+                <div class="doctor-card">
+                    <img src="{{ url_for('static', filename='images/doctor1.jpg') }}" alt="Dr. John Smith - Chief Surgeon">
+                    <h3>Dr. John Smith</h3>
+                    <p>Chief Surgeon</p>
+                </div>
+                <div class="doctor-card">
+                    <img src="{{ url_for('static', filename='images/doctor2.jpg') }}" alt="Dr. Sarah Lee - Pediatrician">
+                    <h3>Dr. Sarah Lee</h3>
+                    <p>Pediatrician</p>
+                </div>
+                <div class="doctor-card">
+                    <img src="{{ url_for('static', filename='images/doctor3.jpg') }}" alt="Dr. Mark Tan - Radiologist">
+                    <h3>Dr. Mark Tan</h3>
+                    <p>Radiologist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="appointments" class="appointments-section">
+        <div class="container">
+            <h2>Book an Appointment</h2>
+
+            <!-- Dynamic Message Display -->
+            {% if message %}
+                <div class="alert {{ status }}">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form action="/appointments" method="POST">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div>
+                    <label for="date">Appointment Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div>
+                    <label for="time">Appointment Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div>
+                    <label for="doctor">Doctor</label>
+                    <select id="doctor" name="doctor" required>
+                        <option value="Dr. John Smith">Dr. John Smith</option>
+                        <option value="Dr. Sarah Lee">Dr. Sarah Lee</option>
+                        <option value="Dr. Mark Tan">Dr. Mark Tan</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" value="Book Appointment">
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <ul class="contact-details">
+                <li>Phone: +1 234 567 8901</li>
+                <li>Email: <a href="mailto:contact@kasturihealthcare.com">contact@kasturihealthcare.com</a></li>
+                <li>Address: 123 Health Street, Wellness City, MediLand</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Kasturi Healthcare. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
