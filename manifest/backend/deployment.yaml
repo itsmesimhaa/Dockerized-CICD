@@ -4,7 +4,7 @@ metadata:
   name: backend
   namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -20,10 +20,10 @@ spec:
         - containerPort: 5000
         env:
         - name: MYSQL_HOST
-          value: "your-rds-endpoint.amazonaws.com"
+          value: "database-1.cgkf5qiqs0zz.us-east-2.rds.amazonaws.com"
         - name: MYSQL_USER
-          value: "your-db-username"
+          value: "admin"
         - name: MYSQL_PASSWORD
-          value: "your-db-password"
+          value: "admin1234"
         - name: MYSQL_DB
-          value: "health-care-db"
+          value: "database-1"
