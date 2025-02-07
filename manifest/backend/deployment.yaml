@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: app-tier
+  namespace: default
 spec:
   replicas: 2
   selector:
