@@ -60,7 +60,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'argocd-credentials', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PASSWORD')]) {
                         sh """
-                        argocd login 18.188.110.234:30223 --username='$ARGOCD_USER' --password='$ARGOCD_PASSWORD' --insecure
+                        argocd login 3.128.199.148:31191 --username='$ARGOCD_USER' --password='$ARGOCD_PASSWORD' --insecure
                         argocd app sync frontend --loglevel debug
                         argocd app sync backend --loglevel debug
                         """
