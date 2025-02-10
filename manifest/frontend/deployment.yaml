@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: itsmesimha/frontend-nginx:29
+        image: itsmesimha/frontend-nginx:32
         ports:
         - containerPort: 80
         env:
