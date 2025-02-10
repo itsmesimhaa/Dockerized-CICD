@@ -41,13 +41,13 @@ pipeline {
                     sed -i 's|image: itsmesimha/frontend-nginx:.*|image: itsmesimha/frontend-nginx:${IMAGE_TAG}|' manifest/frontend/deployment.yaml
                     sed -i 's|image: itsmesimha/backend-flask:.*|image: itsmesimha/backend-flask:${IMAGE_TAG}|' manifest/backend/deployment.yaml
                     """
-                    
+
                     withCredentials([usernamePassword(credentialsId: 'gitHub-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
                         sh """
                         git config --global user.email "hongirana.s@cloudjournee.com"
                         git config --global user.name "itsmesimha"
-                        git add manifest/frontend/deployment.yaml manifest/backend/deployment.yaml
-                        git commit -m "Updated image versions to ${IMAGE_TAG}"
+                        git add manifest/frontend/deployment.yaml manifest/backend/deployment.yaml manifest/frontend/nginx-configmap.yaml
+                        git commit -m "Updated image versions to ${IMAGE_TAG} and ConfigMap"
                         git push https://$GITHUB_USER:$GITHUB_TOKEN@github.com/itsmesimhaa/Dockerized-CICD.git main
                         """
                     }
