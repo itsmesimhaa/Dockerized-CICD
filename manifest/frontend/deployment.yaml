@@ -18,15 +18,8 @@ spec:
         image: itsmesimha/frontend-nginx:23
         ports:
         - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 10
+        env:
+        - name: BACKEND_SERVICE_HOST
+          value: backend-service
+        - name: BACKEND_SERVICE_PORT
+          value: "5000"
