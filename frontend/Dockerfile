@@ -19,8 +19,8 @@ RUN chmod -R 755 /usr/share/nginx/html/kasturihealthcare/
 # Expose port 80 for web traffic
 EXPOSE 80
 
-# Validate Nginx configuration before starting
-RUN nginx -t || echo "Ignoring Nginx test failure during build"
+# Validate configuration with a default safe value
+RUN BACKEND_SERVICE_HOST=127.0.0.1 BACKEND_SERVICE_PORT=5000 nginx -t
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
