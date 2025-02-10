@@ -18,4 +18,5 @@ EXPOSE 80
 RUN rm /etc/nginx/nginx.conf
 
 # Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["sh", "-c", "while [ ! -f /etc/nginx/nginx.conf ]; do echo 'Waiting for config...'; sleep 2; done; nginx -g 'daemon off;'"]
+
