@@ -22,8 +22,14 @@ spec:
         - name: MYSQL_HOST
           value: "database-1.cgkf5qiqs0zz.us-east-2.rds.amazonaws.com"
         - name: MYSQL_USER
-          value: "admin"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
         - name: MYSQL_PASSWORD
-          value: "admin1234"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
         - name: MYSQL_DB
           value: "database-1"
