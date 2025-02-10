@@ -23,3 +23,11 @@ spec:
           value: backend-service
         - name: BACKEND_SERVICE_PORT
           value: "5000"
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf  # Ensure it maps correctly
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config  # Make sure this ConfigMap exists
