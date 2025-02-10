@@ -55,18 +55,33 @@ pipeline {
             }
         }
 
-        stage('Trigger Argo CD Deployment') {
+                stage('Trigger Argo CD Deployment') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'argocd-credentials', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PASSWORD')]) {
                         sh """
                         argocd login 3.128.199.148:31191 --username='$ARGOCD_USER' --password='$ARGOCD_PASSWORD' --insecure
-                        argocd app sync frontend --loglevel debug
-                        argocd app sync backend --loglevel debug
+                        
+                        # Wait for any ongoing sync operation to complete
+                        while argocd app get frontend | grep -q 'Sync: Running'; do
+                            echo "Waiting for existing sync operation to complete..."
+                            sleep 10
+                        done
+
+                        # Trigger ArgoCD sync for frontend
+                        argocd app sync frontend --loglevel debug || echo "ArgoCD sync failed, retrying in 10 seconds" && sleep 10 && argocd app sync frontend --loglevel debug
+
+                        # Wait again to ensure the operation completes before proceeding
+                        while argocd app get backend | grep -q 'Sync: Running'; do
+                            echo "Waiting for existing sync operation to complete..."
+                            sleep 10
+                        done
+
+                        # Trigger ArgoCD sync for backend
+                        argocd app sync backend --loglevel debug || echo "ArgoCD sync failed, retrying in 10 seconds" && sleep 10 && argocd app sync backend --loglevel debug
                         """
                     }
                 }
             }
         }
-    }
-}
+
